@@ -1,0 +1,485 @@
+basePath: /api
+definitions:
+  model.CreateEventRequest:
+    properties:
+      description:
+        type: string
+      event_date:
+        type: string
+      location:
+        type: string
+      title:
+        type: string
+    type: object
+  model.CreateParticipantRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+    type: object
+  model.CreateVenueRequest:
+    properties:
+      address:
+        type: string
+      capacity:
+        type: integer
+      name:
+        type: string
+    type: object
+  model.Event:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      event_date:
+        type: string
+      id:
+        type: string
+      location:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  model.Participant:
+    properties:
+      email:
+        type: string
+      event_id:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      registered_at:
+        type: string
+    type: object
+  model.UpdateEventRequest:
+    properties:
+      description:
+        type: string
+      event_date:
+        type: string
+      location:
+        type: string
+      title:
+        type: string
+    type: object
+  model.UpdateParticipantRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+    type: object
+  model.UpdateVenueRequest:
+    properties:
+      address:
+        type: string
+      capacity:
+        type: integer
+      name:
+        type: string
+    type: object
+  model.Venue:
+    properties:
+      address:
+        type: string
+      capacity:
+        type: integer
+      created_at:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: REST API для управления мероприятиями, участниками и площадками.
+  title: Event Service API
+  version: "1.0"
+paths:
+  /events:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Event'
+            type: array
+      summary: Список мероприятий
+      tags:
+      - events
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Данные мероприятия
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.CreateEventRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Event'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Создать мероприятие
+      tags:
+      - events
+  /events/{eventID}:
+    delete:
+      parameters:
+      - description: ID мероприятия
+        in: path
+        name: eventID
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Удалить мероприятие
+      tags:
+      - events
+    get:
+      parameters:
+      - description: ID мероприятия
+        in: path
+        name: eventID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Event'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Получить мероприятие
+      tags:
+      - events
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID мероприятия
+        in: path
+        name: eventID
+        required: true
+        type: string
+      - description: Поля для обновления
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdateEventRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Event'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Обновить мероприятие
+      tags:
+      - events
+  /events/{eventID}/participants:
+    get:
+      parameters:
+      - description: ID мероприятия
+        in: path
+        name: eventID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Participant'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Список участников мероприятия
+      tags:
+      - participants
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID мероприятия
+        in: path
+        name: eventID
+        required: true
+        type: string
+      - description: Данные участника
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.CreateParticipantRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Participant'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Зарегистрировать участника
+      tags:
+      - participants
+  /events/{eventID}/participants/{participantID}:
+    delete:
+      parameters:
+      - description: ID мероприятия
+        in: path
+        name: eventID
+        required: true
+        type: string
+      - description: ID участника
+        in: path
+        name: participantID
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Удалить участника
+      tags:
+      - participants
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID мероприятия
+        in: path
+        name: eventID
+        required: true
+        type: string
+      - description: ID участника
+        in: path
+        name: participantID
+        required: true
+        type: string
+      - description: Поля для обновления
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdateParticipantRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Participant'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Обновить участника
+      tags:
+      - participants
+  /health:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Проверка здоровья сервиса
+      tags:
+      - health
+  /venues:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Venue'
+            type: array
+      summary: Список площадок
+      tags:
+      - venues
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Данные площадки
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.CreateVenueRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Venue'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Создать площадку
+      tags:
+      - venues
+  /venues/{venueID}:
+    delete:
+      parameters:
+      - description: ID площадки
+        in: path
+        name: venueID
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Удалить площадку
+      tags:
+      - venues
+    get:
+      parameters:
+      - description: ID площадки
+        in: path
+        name: venueID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Venue'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Получить площадку
+      tags:
+      - venues
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID площадки
+        in: path
+        name: venueID
+        required: true
+        type: string
+      - description: Поля для обновления
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdateVenueRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Venue'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Обновить площадку
+      tags:
+      - venues
+swagger: "2.0"

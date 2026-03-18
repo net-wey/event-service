@@ -1,0 +1,27 @@
+# Переменные окружения
+.env
+
+# Бинарные файлы
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Зависимости
+vendor/
+
+# Временные файлы
+tmp/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ОС
+.DS_Store
+Thumbs.db
