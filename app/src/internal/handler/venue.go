@@ -36,7 +36,7 @@ func (h *VenueHandler) List(w http.ResponseWriter, r *http.Request) {
 	if venues == nil {
 		venues = []model.Venue{}
 	}
-	json.NewEncoder(w).Encode(venues)
+	writeJSON(w, http.StatusOK, venues)
 }
 
 // Get возвращает площадку по ID.
@@ -59,7 +59,7 @@ func (h *VenueHandler) Get(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	json.NewEncoder(w).Encode(venue)
+	writeJSON(w, http.StatusOK, venue)
 }
 
 // Create обрабатывает создание площадки.
@@ -87,8 +87,7 @@ func (h *VenueHandler) Create(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(venue)
+	writeJSON(w, http.StatusCreated, venue)
 }
 
 // Update обрабатывает частичное обновление площадки.
@@ -124,7 +123,7 @@ func (h *VenueHandler) Update(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	json.NewEncoder(w).Encode(venue)
+	writeJSON(w, http.StatusOK, venue)
 }
 
 // Delete обрабатывает удаление площадки.

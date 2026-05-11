@@ -44,7 +44,7 @@ func (h *ParticipantHandler) ListByEvent(w http.ResponseWriter, r *http.Request)
 	if participants == nil {
 		participants = []model.Participant{}
 	}
-	json.NewEncoder(w).Encode(participants)
+	writeJSON(w, http.StatusOK, participants)
 }
 
 // Register добавляет нового участника на мероприятие.
@@ -80,8 +80,7 @@ func (h *ParticipantHandler) Register(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(participant)
+	writeJSON(w, http.StatusCreated, participant)
 }
 
 // Update обрабатывает частичное обновление участника.
@@ -113,7 +112,7 @@ func (h *ParticipantHandler) Update(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	json.NewEncoder(w).Encode(participant)
+	writeJSON(w, http.StatusOK, participant)
 }
 
 // Delete обрабатывает удаление участника.

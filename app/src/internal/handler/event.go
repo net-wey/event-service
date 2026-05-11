@@ -36,7 +36,7 @@ func (h *EventHandler) List(w http.ResponseWriter, r *http.Request) {
 	if events == nil {
 		events = []model.Event{}
 	}
-	json.NewEncoder(w).Encode(events)
+	writeJSON(w, http.StatusOK, events)
 }
 
 // Get возвращает мероприятие по ID.
@@ -59,7 +59,7 @@ func (h *EventHandler) Get(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	json.NewEncoder(w).Encode(event)
+	writeJSON(w, http.StatusOK, event)
 }
 
 // Create обрабатывает создание мероприятия.
@@ -87,8 +87,7 @@ func (h *EventHandler) Create(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(event)
+	writeJSON(w, http.StatusCreated, event)
 }
 
 // Update обрабатывает частичное обновление мероприятия.
@@ -124,7 +123,7 @@ func (h *EventHandler) Update(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	json.NewEncoder(w).Encode(event)
+	writeJSON(w, http.StatusOK, event)
 }
 
 // Delete обрабатывает удаление мероприятия.
