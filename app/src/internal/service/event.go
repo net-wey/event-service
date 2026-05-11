@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"event-service/internal/model"
-	"event-service/internal/repository"
 )
 
 var (
@@ -16,11 +15,11 @@ var (
 
 // EventService содержит бизнес-логику для работы с мероприятиями.
 type EventService struct {
-	repo *repository.EventRepository
+	repo eventRepo
 }
 
 // NewEventService создаёт новый EventService.
-func NewEventService(repo *repository.EventRepository) *EventService {
+func NewEventService(repo eventRepo) *EventService {
 	return &EventService{repo: repo}
 }
 

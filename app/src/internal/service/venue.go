@@ -5,18 +5,17 @@ import (
 	"errors"
 
 	"event-service/internal/model"
-	"event-service/internal/repository"
 )
 
 var ErrVenueNotFound = errors.New("площадка не найдена")
 
 // VenueService содержит бизнес-логику для работы с площадками.
 type VenueService struct {
-	repo *repository.VenueRepository
+	repo venueRepo
 }
 
 // NewVenueService создаёт новый VenueService.
-func NewVenueService(repo *repository.VenueRepository) *VenueService {
+func NewVenueService(repo venueRepo) *VenueService {
 	return &VenueService{repo: repo}
 }
 

@@ -5,7 +5,6 @@ import (
 	"errors"
 
 	"event-service/internal/model"
-	"event-service/internal/repository"
 )
 
 var (
@@ -14,12 +13,12 @@ var (
 
 // ParticipantService содержит бизнес-логику для работы с участниками.
 type ParticipantService struct {
-	repo      *repository.ParticipantRepository
-	eventRepo *repository.EventRepository
+	repo      participantRepo
+	eventRepo eventReader
 }
 
 // NewParticipantService создаёт новый ParticipantService.
-func NewParticipantService(repo *repository.ParticipantRepository, eventRepo *repository.EventRepository) *ParticipantService {
+func NewParticipantService(repo participantRepo, eventRepo eventReader) *ParticipantService {
 	return &ParticipantService{repo: repo, eventRepo: eventRepo}
 }
 
