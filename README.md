@@ -64,6 +64,7 @@ go tool cover -func=coverage.out
 ```
 
 Порог в CI: **минимум 50%**. Если ниже, pipeline падает.
+Порог проверяется инструментом `go-test-coverage` по конфигу `.testcoverage.yml`.
 
 ## Линтер
 

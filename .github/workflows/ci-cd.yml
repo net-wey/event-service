@@ -52,11 +52,10 @@ jobs:
           go test ./internal/service/... -covermode=atomic -coverprofile=coverage.out
           go tool cover -func=coverage.out | tee coverage.txt
 
-      - name: Enforce coverage >= 50%
-        run: |
-          TOTAL=$(go tool cover -func=coverage.out | awk '/total:/ {print $3}' | sed 's/%//')
-          echo "Total coverage: ${TOTAL}%"
-          awk -v cov="$TOTAL" 'BEGIN {if (cov+0 < 50) {print "Coverage below 50%"; exit 1}}'
+      - name: Enforce coverage threshold
+        uses: vladopajic/go-test-coverage@v2
+        with:
+          config: ./.testcoverage.yml
 
       - uses: actions/upload-artifact@v4
         with:

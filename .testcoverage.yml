@@ -1,0 +1,4 @@
+profile: app/src/coverage.out
+
+threshold:
+  total: 50
